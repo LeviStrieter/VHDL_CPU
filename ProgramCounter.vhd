@@ -23,13 +23,12 @@ begin
 	--Create an if statement to check for the condition of a positive edge clock and increment =1
 	if (clk'event and clk = '1' and increment = '1') then
 		--Increment counter variable by 1
-		--INSERT CODE HERE
 		counter := counter + 1;
-		output <= conv_std_logic_vector(counter,8);
+		
 
 		--Output the counter variable as a std logic vector of 8 bits,
 		--Use function conv_std_logic_vector(counter,8)
-		--INSERT CODE HERE
+		output <= conv_std_logic_vector(counter,8);
 	end if;
 end process;
 end behavior;
