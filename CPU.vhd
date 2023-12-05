@@ -141,7 +141,11 @@ Map_Accumulator: reg port map(
 	output => aToAluB,
 	clk => clk, 
 	load => cuToALoad
+<<<<<<< HEAD
 );
+=======
+)
+>>>>>>> b5bc905 (syntax)
 
 -- ALU
 Map_ALU: alu port map(
