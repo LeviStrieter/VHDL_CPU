@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity SimpleCPU_Template is
+entity cpu is
 --These are the Outputs that can be displayed on the FPGA, More port statements may be necessary, 
 --Depending on how you want to display each signal to the FPGA
 port (
@@ -17,7 +17,7 @@ port (
 
 end;
 
-architecture behavior of SimpleCPU_Template is
+architecture behavior of cpu is
 --Initialize our memory component
 component memory_8_by_32
 port(	clk:		in std_logic;
@@ -205,7 +205,7 @@ Map_MDRI: reg port map(
 -- Memory Data Register Output
 --INSERT CODE HERE
 Map_MDRO: reg port map(
-	input => mdriOut, 
+	input => aluOut, 
 	output => mdroToRamDataIn, 
 	clk => clk, 
 	load => cuToMdroLoad
