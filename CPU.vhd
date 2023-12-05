@@ -138,10 +138,10 @@ Map_Memory: memory_8_by_32 port map(clk=>clk,
 -- Insert Code --
 Map_Accumulator: reg port map(
 	input => aluOut,
-	output => aToAluB
+	output => aToAluB,
 	clk => clk, 
-	load => ToALoad
-)
+	load => cuToALoad
+);
 
 -- ALU
 Map_ALU: alu port map(
@@ -149,7 +149,7 @@ Map_ALU: alu port map(
 	B => aToAluB,
 	AluOp => cuToAluOp,
 	output => aluOut
-)
+);
 
 -- Program Counter
 --INSERT CODE HERE
@@ -157,7 +157,7 @@ Map_PC: ProgramCounter port map(
 	increment => cuToPcIncrement,
 	clk => clk,
 	output => pcToMarMux
-)
+);
 
 
 -- Instruction Register
@@ -167,7 +167,7 @@ Map_IR: reg port map(
 	output => irOut, 
 	clk => clk, 
 	load => cuToIrLoad
-)
+);
 
 
 -- MAR mux
@@ -177,7 +177,7 @@ Map_Mux: TwoToOneMux port map(
 	B => irOut, 
 	address => cuToMarMux,
 	output => muxToMar
-)
+);
 
 
 
@@ -188,7 +188,7 @@ Map_Mar: reg port map(
 	output => marToRamReadAddr, 
 	clk => clk, 
 	load => cuToMarLoad
-)
+);
 
 
 
@@ -208,7 +208,7 @@ Map_MDRO: reg port map(
 	output => mdroToRamDataIn, 
 	clk => clk, 
 	load => cuToMdroLoad
-)
+);
 
 
 -- Control Unit
@@ -225,7 +225,7 @@ Map_CU: ControlUnit port map(
 	ToMarMux => cuToMarMux,
 	ToRamWriteEnable => cuToRamWriteEnable,
 	ToAluOp => cuToAluOp
-)
+);
 
 
 
