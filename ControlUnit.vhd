@@ -266,7 +266,15 @@ begin
 		--Reads Memory based on address in MAR
 		when adaa_read_mem =>
 		--INSERT CODE HERE
-		
+			ToALoad <= '0';
+			ToPcIncrement <= '0';
+			ToMarMux <= '0';
+			ToMarLoad <= '0';
+			ToRamWriteEnable <= '0';
+			ToMdriLoad <= '0';
+			ToIrLoad <= '0';
+			ToMdroLoad <= '0';
+			ToAluOp <= "000";
 		--Loads MDRI with data just read from memory
 		when adaa_load_mdri =>
 		--INSERT CODE HERE
@@ -310,7 +318,15 @@ begin
 		--Writes to memory the data stored in MDRO
 		when staa_write_mem =>
 		--INSERT CODE HERE
-		
+			ToALoad <= '0';
+			ToPcIncrement <= '0';
+			ToMarMux <= '0';
+			ToMarLoad <= '0';
+			ToRamWriteEnable <= '1';
+			ToMdriLoad <= '0';
+			ToIrLoad <= '0';
+			ToMdroLoad <= '0';
+			ToAluOp <= "000";
 	end case;
 end process;
 end behavior;
