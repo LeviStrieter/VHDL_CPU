@@ -186,7 +186,7 @@ Map_Mux: TwoToOneMux port map(
 --INSERT CODE HERE
 Map_Mar: reg port map(
 	input => muxToMar,
-	output => marToRamReadAddr, 
+	output(4 downto 0) => marToRamReadAddr, 
 	clk => clk, 
 	load => cuToMarLoad
 );
@@ -215,7 +215,7 @@ Map_MDRO: reg port map(
 -- Control Unit
 --INSERT CODE HERE
 Map_CU: ControlUnit port map(
-	OpCode => irOut,
+	OpCode => irOut(7 downto 5),
 	clk => clk,
 	ToALoad => cuToALoad,
 	ToMarLoad => cuToMarLoad,
