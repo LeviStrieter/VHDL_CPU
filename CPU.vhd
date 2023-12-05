@@ -145,9 +145,9 @@ Map_Accumulator: reg port map(
 
 -- ALU
 Map_ALU: alu port map(
-	A => aToAluB, -- NOT CORRECT PROBABLY
-	B => mdriOut,
-	AluOp => ToAluOp,
+	A => mdriOut, 
+	B => aToAluB,
+	AluOp => cuToAluOp,
 	output => aluOut
 )
 
@@ -164,7 +164,7 @@ Map_PC: ProgramCounter port map(
 --INSERT CODE HERE
 Map_IR: reg port map(
 	input => mdriOut,
-	output => OpCode, -- THIS IS NOT CORRECT
+	output => irOut, 
 	clk => clk, 
 	load => cuToIrLoad
 )
@@ -173,8 +173,8 @@ Map_IR: reg port map(
 -- MAR mux
 --INSERT CODE HERE
 Map_Mux: TwoToOneMux port map(
-	A => irOut, -- POSSIBLY WRONG
-	B => pcToMarMux, 
+	A => pcToMarMux, -- POSSIBLY WRONG
+	B => irOut, 
 	address => cuToMarMux,
 	output => muxToMar
 )
@@ -184,7 +184,7 @@ Map_Mux: TwoToOneMux port map(
 -- Memory Access Register
 --INSERT CODE HERE
 Map_Mar: reg port map(
-	input => muxToMar, --?
+	input => muxToMar,
 	output => marToRamReadAddr, 
 	clk => clk, 
 	load => cuToMarLoad
@@ -197,13 +197,14 @@ Map_MDRI: reg port map(
 	clk=>clk,
 	input=>ramDataOutToMdri,
 	output=>mdriOut,
-	load=>cuToMdriLoad );
+	load=>cuToMdriLoad 
+	);
 
 
 -- Memory Data Register Output
 --INSERT CODE HERE
 Map_MDRO: reg port map(
-	input => aluOut, 
+	input => mdriOut, 
 	output => mdroToRamDataIn, 
 	clk => clk, 
 	load => cuToMdroLoad
