@@ -20,22 +20,23 @@ end;
 architecture behavior of SimpleCPU_Template is
 --Initialize our memory component
 component memory_8_by_32
-port(	clk:		in std_logic;	
+port(	clk:		in std_logic;
 	Write_Enable: in std_logic;
 	Read_Addr:	in std_logic_vector	(4 downto 0);
 	Data_in: 	in std_logic_vector	(7 downto 0);
-	Data_out: 	out std_logic_vector(7 downto 0)
+	Data_out: 	out std_logic_vector(7 downto 0)	
 );
 end component;
 --initialize the alu
-component aluport (
+component alu 
+port (
 
 	A : in std_logic_vector			(7 downto 0);
 	B : in std_logic_vector			(7 downto 0);
 	AluOp : in std_logic_vector		(2 downto 0);
 	output : out std_logic_vector	(7 downto 0)
 );
-end component;
+end component;	
 --initialize the registers
 component reg
 port (
@@ -134,26 +135,66 @@ Map_Memory: memory_8_by_32 port map(clk=>clk,
 
 
 -- Accumulator
---INSERT CODE HERE
+-- Insert Code --
+Map_Accumulator: reg port map(
+	input => aluOut,
+	output => aToAluB
+	clk => clk, 
+	load => ToALoad
+)
 
 -- ALU
---INSERT CODE HERE
+Map_ALU: alu port map(
+	A => aToAluB, -- NOT CORRECT PROBABLY
+	B => mdriOut,
+	AluOp => ToAluOp,
+	output => aluOut
+)
 
 -- Program Counter
 --INSERT CODE HERE
+Map_PC: ProgramCounter port map(
+	increment => cuToPcIncrement,
+	clk => clk,
+	output => pcToMarMux
+)
+
 
 -- Instruction Register
 --INSERT CODE HERE
+Map_IR: reg port map(
+	input => mdriOut,
+	output => OpCode, -- THIS IS NOT CORRECT
+	clk => clk, 
+	load => cuToIrLoad
+)
+
 
 -- MAR mux
 --INSERT CODE HERE
+Map_Mux: TwoToOneMux port map(
+	A => irOut, -- POSSIBLY WRONG
+	B => pcToMarMux, 
+	address => cuToMarMux,
+	output => muxToMar
+)
+
 
 
 -- Memory Access Register
 --INSERT CODE HERE
+Map_Mar: reg port map(
+	input => muxToMar, --?
+	output => marToRamReadAddr, 
+	clk => clk, 
+	load => cuToMarLoad
+)
+
+
 
 -- Memory Data Register Input
-Map_MDRI: reg port map(clk=>clk,
+Map_MDRI: reg port map(
+	clk=>clk,
 	input=>ramDataOutToMdri,
 	output=>mdriOut,
 	load=>cuToMdriLoad );
@@ -161,9 +202,31 @@ Map_MDRI: reg port map(clk=>clk,
 
 -- Memory Data Register Output
 --INSERT CODE HERE
+Map_MDRO: reg port map(
+	input => aluOut, 
+	output => mdroToRamDataIn, 
+	clk => clk, 
+	load => cuToMdroLoad
+)
+
 
 -- Control Unit
 --INSERT CODE HERE
+Map_CU: ControlUnit port map(
+	OpCode => irOut,
+	clk => clk,
+	ToALoad => cuToALoad,
+	ToMarLoad => cuToMarLoad,
+	ToIrLoad => cuToIrLoad,
+	ToMdriLoad => cuToMdriLoad,
+	ToMdroLoad => cuToMdroLoad,
+	ToPcIncrement => cuToPcIncrement,
+	ToMarMux => cuToMarMux,
+	ToRamWriteEnable => cuToRamWriteEnable,
+	ToAluOp => cuToAluOp
+)
+
+
 
 --REMAINING CODE GOES HERE
 --Here is where you connect the port statement to the matching signal to display it on the FPGA
