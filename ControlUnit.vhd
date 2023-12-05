@@ -92,9 +92,6 @@ if (clk'event and clk = '1') then
 		--Add Instruction
 		when adaa_load_mar =>
 			current_state <= adaa_read_mem;
-			--INSERT CODE HERE
-
-			-- finished below
 		when adaa_read_mem =>
 			current_state <= adaa_load_mdri;
 		when adaa_load_mdri =>
@@ -105,9 +102,6 @@ if (clk'event and clk = '1') then
 		--Store Instruction
 		when staa_load_mdro =>
 			current_state <= staa_write_mem;
-			--INSERT CODE HERE
-
-			-- finished below
 		when staa_write_mem =>
 			current_state <= increment_pc;
 	end case;
@@ -150,7 +144,7 @@ begin
 
 		
 		--Reads Address located in MAR
-		when read_mem =>    -- NEED WORK
+		when read_mem => 
 			ToALoad <= '0';
 			ToPcIncrement <= '0';
 			ToMarMux <= '0';
@@ -162,9 +156,7 @@ begin
 
 		
 		--Load Memory Data Register Input
-		when load_mdri =>
-		--INSERT CODE HERE
-			
+		when load_mdri =>			
 			ToALoad <= '0';
 			ToPcIncrement <= '0';
 			ToMarMux <= '0';
@@ -176,7 +168,6 @@ begin
 
 		--Loads the Instruction Register with instruction fetched from Memory
 		when load_ir =>
-		--INSERT CODE HERE
 			ToALoad <= '0';
 			ToPcIncrement <= '0';
 			ToMarMux <= '0';
@@ -188,7 +179,6 @@ begin
 
 		--Decodes The current instruction (everything should be off for this)
 		when decode =>    
-		--INSERT CODE HERE
 			ToALoad <= '0';
 			ToPcIncrement <= '0';
 			ToMarMux <= '0';
@@ -212,7 +202,6 @@ begin
 
 		--Reads Data in memory retrieved from Address in MAR
 		when ldaa_read_mem =>
-		--INSERT CODE HERE
 			ToALoad <= '0';
 			ToPcIncrement <= '0';
 			ToMarMux <= '0';
@@ -239,7 +228,6 @@ begin
 		
 		--Loads the accumulator with data held in MDRI
 		when ldaa_load_a =>
-		--INSERT CODE HERE
 			ToALoad <= '1';
 			ToPcIncrement <= '0';
 			ToMarMux <= '0';
@@ -265,7 +253,6 @@ begin
 		
 		--Reads Memory based on address in MAR
 		when adaa_read_mem =>
-		--INSERT CODE HERE
 			ToALoad <= '0';
 			ToPcIncrement <= '0';
 			ToMarMux <= '0';
@@ -277,8 +264,6 @@ begin
 			ToAluOp <= "000";
 		--Loads MDRI with data just read from memory
 		when adaa_load_mdri =>
-		--INSERT CODE HERE
-		
 			ToALoad <= '0';
 			ToPcIncrement <= '0';
 			ToMarMux <= '0';
@@ -314,10 +299,8 @@ begin
 			ToMdroLoad <= '1';
 			ToAluOp <= "100";
 
-		
 		--Writes to memory the data stored in MDRO
 		when staa_write_mem =>
-		--INSERT CODE HERE
 			ToALoad <= '0';
 			ToPcIncrement <= '0';
 			ToMarMux <= '0';
@@ -326,8 +309,7 @@ begin
 			ToMdriLoad <= '0';
 			ToIrLoad <= '0';
 			ToMdroLoad <= '0';
-			ToAluOp <= "000";
+			ToAluOp <= "100";
 	end case;
 end process;
 end behavior;
-
